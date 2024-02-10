@@ -4,8 +4,16 @@ import { IconButton } from 'react-native-paper'
 const BottomNavigation = (): JSX.Element => {
   return (
     <View style={styles.container}>
-      <IconButton icon={'home'} mode="contained" onPress={() => { console.log('ホームボタン') }} />
-      <IconButton icon={'image-album'} mode="contained" onPress={() => { console.log('アルバムボタン') }} />
+      <IconButton
+      icon={'home'}
+      mode="contained"
+      onPress={() => { console.log('ホームボタン') }}
+      style={ { backgroundColor: 'white' } } />
+      <IconButton
+      icon={'image-album'}
+      mode="contained"
+      onPress={() => { console.log('アルバムボタン') }}
+      style={ { backgroundColor: 'white' } } />
     </View>
   )
 }

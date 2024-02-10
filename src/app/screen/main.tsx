@@ -2,6 +2,11 @@ import { View, StyleSheet } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import { Button } from 'react-native-paper'
 import BottomNavigation from '../../component/bottomnavigation'
+import { router } from 'expo-router'
+
+const handlePress = (): void => {
+  router.push('/screen/diary')
+}
 
 const Main = (): JSX.Element => {
   return (
@@ -10,7 +15,7 @@ const Main = (): JSX.Element => {
         <Calendar />
       </View>
       <View style={styles.button}>
-        <Button mode='contained' onPress={() => { console.log('今日の日記') } }>
+        <Button mode='contained' onPress={() => { handlePress() } }>
           💬今日の日記を書く
         </Button>
       </View>

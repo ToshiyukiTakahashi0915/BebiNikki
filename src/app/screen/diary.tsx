@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, StyleSheet, KeyboardAvoidingView, Platform, Image } from 'react-native'
 import { IconButton, Text, TextInput } from 'react-native-paper'
 import CustomButton from '../../component/CustoumButton'
 import * as ImagePicker from 'expo-image-picker'
@@ -12,24 +12,34 @@ const Diary = (): JSX.Element => {
   const day = ('0' + today.getDate()).slice(-2)
   const formattedDate = `${year}/${month}/${day}`
 
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const ImagePreview = (): JSX.Element => {
+    if (selectedImage === null) {
+      return (
+        <Text>画像が選択されていません。</Text>
+      )
+    } else {
+      return (
+        <Image source={{ uri: selectedImage }} style={styles.image} />
+      )
+    }
+  }
 
   const pickImage = async (): Promise<void> => {
-    // ユーザーにメディアライブラリへのアクセス許可を求める
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
-    if (permissionResult.granted === false) {
-      alert('写真へのアクセス許可が必要です！')
-      return
-    }
-
+    console.log('ボタンが押されました')
     // ImagePickerを起動
-    const pickerResult = await ImagePicker.launchImageLibraryAsync()
-    if (pickerResult.canceled === true) {
-      return
-    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    })
 
-    // 選択された画像のURIをstateに保存
-    setSelectedImage({ localUri: pickerResult.uri })
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri)
+    }
+    await Promise.resolve()
   }
 
   return (
@@ -43,7 +53,8 @@ const Diary = (): JSX.Element => {
           <IconButton
             icon={'camera'}
             mode="contained"
-            style={[styles.iconButton, { backgroundColor: 'white', borderColor: '#000000', borderWidth: 1 }]}
+            style={[styles.iconButton, { backgroundColor: 'white' }]}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onPress= {pickImage}
           />
           <CustomButton
@@ -53,22 +64,20 @@ const Diary = (): JSX.Element => {
         </View>
         <View style={styles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={styles.inputTitle}
             label={'タイトル'}
           />
           <TextInput
-            style={[styles.input, styles.inputBody]}
+            style={styles.inputBody}
             label={'日記の内容'}
             multiline={true}
             scrollEnabled={true}
           />
         </View>
-      {/* 選択された画像を表示する */}
-      selectedImage !== null && (
+        {/* 選択された画像を表示する */}
         <View style={styles.imagePreview}>
-          <Image source={{ uri: selectedImage.localUri }} style={styles.image} />
+          <ImagePreview/>
         </View>
-      )
     </KeyboardAvoidingView>
   )
 }
@@ -92,21 +101,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   iconButton: {
-    right: 24
+    right: 12
   },
   inputContainer: {
     margin: 24
   },
-  input: {
+  inputTitle: {
     marginBottom: 12,
     backgroundColor: '#EFF4E0'
   },
   inputBody: {
+    backgroundColor: '#EFF4E0',
     height: 300 // 本文のTextInputの高さを指定
   },
   imagePreview: {
-    alignItems: 'center',
-    marginTop: 20
+    alignItems: 'center'
   },
   image: {
     width: 200,
