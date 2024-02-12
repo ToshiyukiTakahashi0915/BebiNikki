@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router'
 import { DefaultTheme, PaperProvider } from 'react-native-paper'
+import { RecoilRoot } from 'recoil'
 
 const theme = {
   ...DefaultTheme,
@@ -17,21 +18,23 @@ const theme = {
 
 const Layout = (): JSX.Element => {
   return (
-    <PaperProvider theme={theme}>
-      <Stack screenOptions={{
-        headerStyle: {
-          backgroundColor: '#EFF4E0'
-        },
-        headerTitleAlign: 'center',
-        headerTintColor: '#000000',
-        headerTitle: 'べびにっき📖',
-        headerBackTitle: '戻る',
-        headerTitleStyle: {
-          fontSize: 22,
-          fontWeight: 'normal'
-        }
-      }}/>
-    </PaperProvider>
+    <RecoilRoot>
+      <PaperProvider theme={theme}>
+        <Stack screenOptions={{
+          headerStyle: {
+            backgroundColor: '#EFF4E0'
+          },
+          headerTitleAlign: 'center',
+          headerTintColor: '#000000',
+          headerTitle: 'べびにっき📖',
+          headerBackTitle: '戻る',
+          headerTitleStyle: {
+            fontSize: 22,
+            fontWeight: 'normal'
+          }
+        }}/>
+      </PaperProvider>
+    </RecoilRoot>
   )
 }
 

@@ -8,7 +8,7 @@ const handlePress = (): void => {
   router.push('/screen/diary')
 }
 
-const Main = (): JSX.Element => {
+const Home = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.calender}>
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Main
+export default Home

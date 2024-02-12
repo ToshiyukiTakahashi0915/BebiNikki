@@ -1,19 +1,33 @@
+import { router } from 'expo-router'
 import { View, StyleSheet } from 'react-native'
 import { IconButton } from 'react-native-paper'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { bottomNavigationState } from '../app/atom/bottomNavigationState'
 
 const BottomNavigation = (): JSX.Element => {
+  const setActiveTab = useSetRecoilState(bottomNavigationState)
+  const activeTab = useRecoilValue(bottomNavigationState)
+
+  const handlePress = (route: string): void => {
+    console.log('Before setActiveTab:', activeTab)
+    setActiveTab(route)
+    console.log('After setActiveTab:', activeTab)
+    router.replace(`/screen/${route}`)
+  }
   return (
     <View style={styles.container}>
       <IconButton
       icon={'home'}
       mode="contained"
-      onPress={() => { console.log('ホームボタン') }}
-      style={ { backgroundColor: 'white' } } />
+      onPress={() => { handlePress('home') }}
+      disabled={activeTab === 'home'}
+      style={ { backgroundColor: activeTab === 'home' ? 'lightgray' : 'white' } } />
       <IconButton
       icon={'image-album'}
       mode="contained"
-      onPress={() => { console.log('アルバムボタン') }}
-      style={ { backgroundColor: 'white' } } />
+      onPress={() => { handlePress('gallery') }}
+      disabled={activeTab === 'gallery'}
+      style={ { backgroundColor: activeTab === 'gallery' ? 'lightgray' : 'white' } } />
     </View>
   )
 }
