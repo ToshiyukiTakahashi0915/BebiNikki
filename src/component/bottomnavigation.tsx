@@ -9,9 +9,7 @@ const BottomNavigation = (): JSX.Element => {
   const activeTab = useRecoilValue(bottomNavigationState)
 
   const handlePress = (route: string): void => {
-    console.log('Before setActiveTab:', activeTab)
     setActiveTab(route)
-    console.log('After setActiveTab:', activeTab)
     router.replace(`/screen/${route}`)
   }
   return (

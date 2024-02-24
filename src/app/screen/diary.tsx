@@ -27,7 +27,6 @@ const Diary = (): JSX.Element => {
   }
 
   const pickImage = async (): Promise<void> => {
-    console.log('ボタンが押されました')
     // ImagePickerを起動
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
