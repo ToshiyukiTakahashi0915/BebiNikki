@@ -5,6 +5,8 @@ import * as ImagePicker from 'expo-image-picker'
 import { useState } from 'react'
 
 const Diary = (): JSX.Element => {
+  const [titleText, setTitleText] = useState('')
+  const [bodyText, setBodyText] = useState('')
   // 日付データの取得
   const today = new Date()
   const year = today.getFullYear()
@@ -41,6 +43,27 @@ const Diary = (): JSX.Element => {
     await Promise.resolve()
   }
 
+  const diaryCreate = async (): Promise<void> => {
+    // リクエストボディを作成
+    const requestBody = {
+      formattedDate,
+      titleText,
+      bodyText
+    }
+    // APIにリクエストを送信
+    const response = await fetch('https://xr64wf5on5.execute-api.ap-northeast-1.amazonaws.com/diaries/Diaries', {
+      method: 'POST',
+      body: JSON.stringify(requestBody)
+    })
+
+    // レスポンスを処理
+    if (response.ok) {
+      alert('日記を保存しました')
+    } else {
+      alert('日記の保存に失敗しました')
+    }
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.dateContainer}>
@@ -58,19 +81,24 @@ const Diary = (): JSX.Element => {
           />
           <CustomButton
             title="日記を保存"
-            onPress={() => { console.log('保存') }}
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onPress={diaryCreate}
           />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputTitle}
             label={'タイトル'}
+            onChangeText={newText => { setTitleText(newText) }}
+            defaultValue={titleText}
           />
           <TextInput
             style={styles.inputBody}
             label={'日記の内容'}
             multiline={true}
             scrollEnabled={true}
+            onChangeText={newText => { setBodyText(newText) }}
+            defaultValue={bodyText}
           />
         </View>
         {/* 選択された画像を表示する */}
