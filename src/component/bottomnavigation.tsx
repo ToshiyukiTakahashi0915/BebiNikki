@@ -2,7 +2,7 @@ import { router } from 'expo-router'
 import { View, StyleSheet } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { bottomNavigationState } from '../app/atom/bottomNavigationState'
+import { bottomNavigationState } from '../app/recoil/atom'
 
 const BottomNavigation = (): JSX.Element => {
   const setActiveTab = useSetRecoilState(bottomNavigationState)

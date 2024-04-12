@@ -9,8 +9,10 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@aws-amplify/react-native": "^1.0.20",
+    "@react-native-async-storage/async-storage": "^1.22.3",
     "@react-native-picker/picker": "^2.6.1",
-    "aws-amplify": "^6.0.19",
+    "aws-amplify": "^6.0.20",
     "expo": "~50.0.5",
     "expo-image-picker": "^14.7.1",
     "expo-router": "~3.4.6",
